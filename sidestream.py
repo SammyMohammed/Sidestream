@@ -1,6 +1,7 @@
 import spotipy
 import sys
 import spotipy.util as util
+import operator #referenced Ajisten on stackoverlow
 
 scope = "user-library-read"
 token = util.prompt_for_user_token("sammymohammed",scope,client_id='',client_secret='',redirect_uri='http://localhost/')
@@ -38,21 +39,31 @@ def get_artist():
         results = spotify.album_tracks(album['id'])
         #print results
         tracks.extend(results['items'])
-        print tracks
+        #print tracks
         while results['next']:
             results = spotify.next(results)
             tracks.extend(results['items'])
         songids = []
+        songnames = []
         for track in tracks:
-            print(track['name'])
+            #print(track['name'])
+            songnames.append(track['name'])
             id = track['id']
             if id not in songids:
-                print('id: ' + id)
+                #print('id: ' + id)
                 songids.append(id)
-            print()
-            print songids
+            # print()
+            # print songids
             #print(track)
-        for id in songids:
-            print spotify.track(id)
+    songpops = []
+    for id in songids:
+        print spotify.track(id)['name'] +  " " + str(spotify.track(id)['popularity'])
+        songpops.append(spotify.track(id)['popularity'])
+    keys = songnames
+    values = songpops #referenced stackoverlow for merging the two lists into a dict
+    popularitydict = dict(zip(keys, values))
+    sorted_popularity = sorted(popularitydict.items(), key=operator.itemgetter(1))
+    print(sorted_popularity[0])
+    #learning the lovely zip
 
 get_artist()
