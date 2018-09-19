@@ -42,9 +42,17 @@ def get_artist():
         while results['next']:
             results = spotify.next(results)
             tracks.extend(results['items'])
+        songids = []
         for track in tracks:
-            print('  ', track['name'])
+            print(track['name'])
+            id = track['id']
+            if id not in songids:
+                print('id: ' + id)
+                songids.append(id)
             print()
+            print songids
             #print(track)
+        for id in songids:
+            print spotify.track(id)
 
 get_artist()

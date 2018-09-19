@@ -3,7 +3,7 @@ import sys
 import spotipy.util as util
 
 scope = "user-library-read"
-token = util.prompt_for_user_token("sammymohammed",scope,client_id='',client_secret='',redirect_uri='http://localhost/')
+token = util.prompt_for_user_token("sammymohammed",scope,client_id='ff3d8adb2922425888f320204ee7d6b2',client_secret='96ff1baac76a4d05861239f3aecb6138',redirect_uri='http://localhost/')
 
 spotify = spotipy.Spotify(auth=token) #creating a Spotify object
 
@@ -43,7 +43,7 @@ def get_artist():
             results = spotify.next(results)
             tracks.extend(results['items'])
         for track in tracks:
-            print('  ', track['name'])
+            print('  ', track['name'], track['popular'])
             print()
             #print(track)
 
